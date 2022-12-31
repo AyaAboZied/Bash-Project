@@ -1,63 +1,61 @@
-<<o
-n=cut -d: -f1  h | grep "^-\?[0-9]+$"
-if [$n];then
-echo "doneeeee"
-else
-echo $n
-fi
-o
 echo "Enter table name"
 read name
 function checkName {
+if [[ !($name =~ ^[A-Za-z]*$) ]];then
+echo "invaild name"
+return
+else
 for i in *
 do
-if [ $i != $name ]; then
+if [[ ($i != $name) ]]; then
  touch $name
 else
-<<c
- if [ -d "$i" ]
- echo "already exist as Directory"
- else
- echo "already exist as file"
- fi
-c
  echo "already exist"
 fi
 done
+fi
 }
 
 checkName
 
-
 function insert {
-echo "Enter number of field"
+echo "Enter number of feild"
 read x
-i=0
+j=0
 echo "Enter your column name,type *please seperate with : *"
-while [ $i -lt $x ]
+while [[ $j -lt $x ]]
 do
 read col
 echo $col  >> $name
-let i=$i+1
-if [$i >= 1];then
-cut -d: -f1  $name | grep "^-\?[0-9]+$"
-
+let j=$j+1
+ff=$(cut -d: -f1  $name )
+for i in $ff
+do
+if [[ !($i =~ ^[0-9]*$) ]]; then
+echo "sorry,${i} is invaild *please,Enter a number*"
+sed -i '$d' $name > $name
+return
+fi
+done
 done
 }
 
-
 function Drop {
 echo "please enter the name of table you want to remove"
-read name
+read nm
+rr=0
 for i in *
 do
-if [ $i = $name ]; then
+if [[ $i = $name ]]; then
  rm -i $name
-else
- echo "Enter correct name"
+echo "Done removing"
+let rr=$rr+2
 break
 fi
 done
+if [[ $rr<1 ]];then
+echo "invalid"
+fi
 }
 
 
@@ -75,13 +73,14 @@ select h in All ByColumn
 do
 case $h in
 All)
- sed -e '3,$d'$name > $name
+ sed -i -e '3,$d' $name > $name
  break;;
 ByColumn)
  echo "enter the column num"
  read idcol
- if [ $idcol > $x ]; then
+ if [[ $idcol > $x ]]; then
   echo "please enter an Existing column"
+  echo $x
  else
   cut -d: -f$idcol --complement $name >> $name
  fi
@@ -144,4 +143,3 @@ break;;
 esac
 done
 done
-

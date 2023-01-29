@@ -5,9 +5,10 @@ Upon user Connect to a Specific Database decide to create, list, drop, update, i
 
 you will find 2 files db.sh , r.sh
 
-db.sh --------> for building database and to choose to create a list, delete or connect databases as a folder 
+db.sh --------> for building database and to choose to create a list, delete or connect databases ( db will create as a folder) 
 
-r.sh  --------> for  user Connect to a Specific Database decide to create, list, drop, update, insert into, select from or delete from the table (table will be files)
+r.sh  --------> for  user Connect to a Specific Database decide to create, list, drop, update, insert into, select 
+from or delete from the table (table will create as a file)
 
 
 --------------------------------------------------------------------------------------------------
